@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Halite fixture shop</title>
+  </head>
+  <body>
+    <h1>Fixture shop</h1>
+
+    <form
+      id="search-form"
+      action="/search"
+      method="get"
+      aria-label="Search products"
+    >
+      <label>Query <input name="q" required type="search" /></label>
+      <button type="submit">Search</button>
+    </form>
+
+    <form
+      id="contact"
+      toolname="submit_contact"
+      tooldescription="Send a contact message to the shop"
+      action="/contact"
+      method="post"
+    >
+      <label>Email <input name="email" type="email" required /></label>
+      <label>Message <textarea name="message" required></textarea></label>
+      <button type="submit">Send</button>
+    </form>
+
+    <button
+      id="add-cart"
+      data-halite-tool="add_to_cart"
+      data-halite-description="Add the current product to the cart"
+    >
+      Add to cart
+    </button>
+  </body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Halite demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg0: #0c1210;
+        --bg1: #14201a;
+        --ink: #e8f0ea;
+        --mute: #8fa396;
+        --accent: #6fcf97;
+        --line: rgba(232, 240, 234, 0.12);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: "DM Sans", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(1200px 600px at 10% -10%, #1d3a2c 0%, transparent 55%),
+          radial-gradient(900px 500px at 100% 0%, #243528 0%, transparent 50%),
+          linear-gradient(180deg, var(--bg0), var(--bg1));
+      }
+      .hero {
+        min-height: 100dvh;
+        display: grid;
+        align-content: center;
+        gap: 1.25rem;
+        padding: 2rem clamp(1.25rem, 4vw, 4rem);
+        max-width: 56rem;
+      }
+      .brand {
+        font-family: "Instrument Serif", serif;
+        font-size: clamp(3rem, 9vw, 5.5rem);
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        margin: 0;
+        animation: rise 700ms ease both;
+      }
+      .lede {
+        margin: 0;
+        max-width: 32rem;
+        color: var(--mute);
+        font-size: 1.1rem;
+        animation: rise 700ms ease 80ms both;
+      }
+      .cta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        animation: rise 700ms ease 140ms both;
+      }
+      .cta a,
+      .cta button {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--ink);
+        padding: 0.7rem 1rem;
+        border-radius: 0.4rem;
+        font: inherit;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .cta a.primary {
+        background: var(--accent);
+        color: #0b140f;
+        border-color: transparent;
+        font-weight: 600;
+      }
+      section.panel {
+        padding: 2rem clamp(1.25rem, 4vw, 4rem) 4rem;
+        border-top: 1px solid var(--line);
+        max-width: 56rem;
+      }
+      form {
+        display: grid;
+        gap: 0.75rem;
+        max-width: 24rem;
+      }
+      label {
+        display: grid;
+        gap: 0.35rem;
+        font-size: 0.9rem;
+        color: var(--mute);
+      }
+      input,
+      textarea {
+        font: inherit;
+        padding: 0.65rem 0.75rem;
+        border-radius: 0.35rem;
+        border: 1px solid var(--line);
+        background: rgba(0, 0, 0, 0.25);
+        color: var(--ink);
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <p class="brand">Halite</p>
+      <p class="lede">
+        Turn your site into WebMCP tools. Analyze, approve, ship one script tag.
+        Free and open source.
+      </p>
+      <div class="cta">
+        <a class="primary" href="#try">Try the demo form</a>
+        <a href="https://github.com/halite-dev/halite">GitHub</a>
+      </div>
+    </header>
+
+    <section class="panel" id="try">
+      <h2>Contact</h2>
+      <form
+        id="demo-contact"
+        toolname="submit_contact"
+        tooldescription="Send a message through the Halite demo contact form"
+        action="#"
+        method="post"
+        onsubmit="event.preventDefault(); document.getElementById('status').textContent='Sent '+email.value;"
+      >
+        <label
+          >Email
+          <input id="email" name="email" type="email" required />
+        </label>
+        <label
+          >Message
+          <textarea name="message" required rows="4"></textarea>
+        </label>
+        <div class="cta">
+          <button type="submit">Send</button>
+        </div>
+      </form>
+      <p id="status" class="lede" style="margin-top: 1rem"></p>
+    </section>
+
+    <!-- After: halite analyze && halite approve --all && halite publish -->
+    <!-- <script src="/halite.runtime.js" data-halite-manifest="/halite.tools.json" defer></script> -->
+  </body>
+</html>

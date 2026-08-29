@@ -1,0 +1,68 @@
+{
+  "name": "halite",
+  "version": "0.1.0",
+  "description": "Free open-source WebMCP tooling: analyze a site or repo, approve tools, ship one script tag.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "halite": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./runtime": {
+      "types": "./dist/runtime/index.d.ts",
+      "import": "./dist/runtime/index.js"
+    },
+    "./analyze": {
+      "types": "./dist/analyze/index.d.ts",
+      "import": "./dist/analyze/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "node --import tsx --test tests/**/*.test.ts",
+    "lint": "tsc --noEmit && node scripts/lint-style.mjs",
+    "verify": "bash verify/verify.sh",
+    "halite": "node dist/cli.js",
+    "prepublishOnly": "pnpm verify"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "webmcp",
+    "ai-agents",
+    "mcp",
+    "browser",
+    "tools",
+    "halite"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/halite-dev/halite.git"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "fast-glob": "^3.3.3",
+    "zod": "^3.24.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}
