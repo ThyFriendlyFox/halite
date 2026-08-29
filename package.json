@@ -1,6 +1,6 @@
 {
   "name": "halite",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Free open-source WebMCP tooling: analyze a site or repo, approve tools, ship one script tag.",
   "license": "MIT",
   "type": "module",
@@ -47,7 +47,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/halite-dev/halite.git"
+    "url": "git+https://github.com/ThyFriendlyFox/halite.git"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",

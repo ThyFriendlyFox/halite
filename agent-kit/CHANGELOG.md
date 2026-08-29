@@ -11,6 +11,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [SemVer](
 ### Fixed
 ### Security
 
+## [0.2.0] - 2026-08-29
+### Added
+- `halite annotate` writes `toolname` / `tooldescription` onto plain HTML forms.
+- `halite schema` prints the manifest JSON Schema; checked in at `schemas/halite.manifest.schema.json`.
+
 ## [0.1.0] - 2026-08-29
 ### Added
 - `halite analyze` static repository scanner (HTML forms, declarative WebMCP attrs, data-halite buttons, API routes).

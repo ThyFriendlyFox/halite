@@ -72,6 +72,8 @@ await registerManifest(manifest, { approvedOnly: true });
 | Command | Task |
 |---|---|
 | `halite analyze [root]` | Static scan → draft manifest |
+| `halite annotate <file>` | Add declarative tool attrs to HTML forms |
+| `halite schema` | Print manifest JSON Schema |
 | `halite approve [names…]` | Mark tools approved (`--all`) |
 | `halite reject <names…>` | Keep tools unpublished |
 | `halite emit` | Print the script tag |

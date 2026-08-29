@@ -15,38 +15,39 @@ tag, version and roll back without a SaaS bill.
 
 provisional: true
 
-### 1. Declarative HTML annotate command
-- **Promise:** `halite annotate <file>` writes `toolname` / `tooldescription` onto detected forms and prints a diff summary.
-- **Evidence:** unit test on `tests/fixtures/html-site/index.html` plus `pnpm verify` green.
-- **Use case:** Annotate forms
-- **Scope guard:** Does not invent React component props; HTML only in this item.
-- **Status:** ready
-
-### 2. Live URL crawl adapter
+### 1. Live URL crawl adapter
 - **Promise:** `halite analyze --adapter crawl --url <https>` proposes tools from a public page DOM without reading local source.
 - **Evidence:** integration test with a local static server fixture; adapter listed in `docs/ADAPTERS.md`.
 - **Use case:** Crawl a live page
 - **Scope guard:** No authenticated crawling; no executing page JS beyond Playwright DOM content.
 - **Status:** ready
 
-### 3. Manifest editor JSON Schema export
-- **Promise:** `halite schema` prints the Halite manifest JSON Schema to stdout for editor validation.
-- **Evidence:** snapshot test of schema `$id` and required fields; `pnpm verify` green.
-- **Use case:** Hand-author tools
-- **Scope guard:** Does not build a GUI editor.
+### 2. Next.js script injection helper
+- **Promise:** `halite init next` prints a drop-in snippet for `app/layout.tsx` that loads the published runtime.
+- **Evidence:** unit test of the emitted snippet string; README documents the command.
+- **Use case:** Publish forms on a marketing site
+- **Scope guard:** Does not modify the user's Next.js project files automatically.
+- **Status:** ready
+
+### 3. Self-hosted call counter
+- **Promise:** Optional runtime beacon posts tool-call events to a same-origin `/halite/events` endpoint stub with documented request shape.
+- **Evidence:** test that the beacon payload matches the documented schema; default remains off.
+- **Use case:** CI re-scan on push
+- **Scope guard:** No hosted analytics SaaS; no third-party beacons.
 - **Status:** ready
 
 ## Later — candidates, not yet specced
 
 - Optional LLM enrichment adapter (user-supplied API key) for better descriptions.
-- Next.js plugin that injects the script tag in `layout.tsx`.
-- Agent analytics (self-hosted counters) as an optional package.
 - GitHub Action that re-analyzes on push and opens a PR with draft tools.
+- Answer-engine referrer dashboard (self-hosted).
 
 ## Shipped
 
 | Week | Feature | Release | Evidence |
 |---|---|---|---|
+| 2026-08-29 | Declarative HTML annotate command | v0.2.0 | `tests/schema-annotate.test.ts`; `halite annotate` |
+| 2026-08-29 | Manifest editor JSON Schema export | v0.2.0 | `halite schema`; `schemas/halite.manifest.schema.json` |
 | 2026-08-29 | Core analyze / approve / publish / runtime | v0.1.0 | `pnpm verify`; fixture finds contact, cart, search tools |
 
 ## Explicitly not doing
@@ -58,3 +59,4 @@ provisional: true
 ## Queue changes
 
 - 2026-08-29 — seeded provisional queue at install (SETUP).
+- 2026-08-29 — shipped annotate + schema; refilled queue with next/init and beacon.

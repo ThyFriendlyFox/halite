@@ -19,6 +19,7 @@ fails parse with a Zod error; the CLI exits non-zero and does not overwrite.
 | `analyze --name` | string | directory name | Manifest `name` |
 | `approve --manifest` | path | `halite.tools.json` | Manifest to update |
 | `approve --all` | bool | false | Approve every draft tool |
+| `annotate --dry-run` | bool | false | Print annotated HTML without write |
 | `emit --url` | string | `/halite.tools.json` | Manifest URL in script tag |
 | `emit --runtime-url` | string | `/halite.runtime.js` | Runtime URL in script tag |
 | `publish --out` | path | `halite-publish` | Hostable artifact directory |

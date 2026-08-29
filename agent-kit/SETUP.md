@@ -11,7 +11,7 @@ Re-run only when forking into a different project.
 | Placeholder | Value |
 |---|---|
 | PROJECT_NAME | Halite |
-| REPO_SLUG | halite-dev/halite |
+| REPO_SLUG | ThyFriendlyFox/halite |
 | DEFAULT_BRANCH | main |
 | BUILD_CMD | pnpm build |
 | TEST_CMD | pnpm test |

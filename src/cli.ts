@@ -2,12 +2,14 @@ import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { Command } from "commander";
 import { analyzeRepository } from "./analyze/index.js";
+import { annotateFile, annotateHtml } from "./analyze/annotate.js";
 import {
   emptyManifest,
   parseManifest,
   type HaliteManifest,
   type HaliteTool,
 } from "./schema/manifest.js";
+import { manifestJsonSchema } from "./schema/json-schema.js";
 import { emitScriptTag } from "./runtime/index.js";
 import { createRequire } from "node:module";
 
@@ -68,6 +70,40 @@ program
     "Free open-source Sodium alternative: turn site features into WebMCP tools",
   )
   .version(pkg.version);
+
+program
+  .command("schema")
+  .description("Print the Halite manifest JSON Schema to stdout")
+  .action(() => {
+    process.stdout.write(`${JSON.stringify(manifestJsonSchema(), null, 2)}\n`);
+  });
+
+program
+  .command("annotate")
+  .description(
+    "Write toolname / tooldescription onto HTML forms that lack them",
+  )
+  .argument("<file>", "HTML file to annotate")
+  .option("--dry-run", "print the result without writing", false)
+  .action((file: string, opts: { dryRun?: boolean }) => {
+    const path = resolve(file);
+    if (opts.dryRun) {
+      const original = readFileSync(path, "utf8");
+      const result = annotateHtml(original, path);
+      process.stdout.write(result.content);
+      console.error(
+        `# annotated ${result.annotated}, skipped ${result.skipped}: ${result.names.join(", ") || "(none)"}`,
+      );
+      return;
+    }
+    const result = annotateFile(path, true);
+    console.log(
+      `Annotated ${result.annotated} form(s), skipped ${result.skipped} in ${path}`,
+    );
+    if (result.names.length) {
+      console.log(`  names: ${result.names.join(", ")}`);
+    }
+  });
 
 program
   .command("analyze")

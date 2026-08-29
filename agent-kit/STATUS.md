@@ -7,6 +7,7 @@ behavior change. The weekly cycle (WEEKLY.md step 5) refreshes it.
 | Area | State | Evidence |
 |---|---|---|
 | Core CLI (analyze/approve/emit/publish/rollback) | ✅ | `pnpm verify` |
+| `halite annotate` / `halite schema` | ✅ | `tests/schema-annotate.test.ts` |
 | Browser runtime (IIFE + registerManifest) | ✅ | build emits `dist/halite.runtime.global.js` |
 | Static analyzer adapter | ✅ | fixture tests in `tests/analyze.test.ts` |
 | Live crawl adapter | ❌ | queued |
@@ -17,6 +18,6 @@ States: ✅ done (gated) · 🚧 in progress · ❌ not started · 🧊 frozen/w
 
 ## Current week
 
-- **Shipping:** between cycles (v0.1.0 core landed at kit install)
-- **Last release:** v0.1.0 — 2026-08-29
+- **Shipping:** between cycles (v0.2.0 annotate + schema)
+- **Last release:** v0.2.0 — 2026-08-29
 - **Known red:** none

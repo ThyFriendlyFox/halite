@@ -39,6 +39,14 @@ Evidence: <commit / tag / gate run / screenshot>
 
 ---
 
+## 2026-08-29 — Shipped annotate and schema as v0.2.0
+
+I added `halite annotate` for plain HTML forms and `halite schema` for
+editor validation. Both land with tests. The queue now leads with the
+crawl adapter. The public repo is ThyFriendlyFox/halite.
+
+Evidence: `tests/schema-annotate.test.ts`, `schemas/halite.manifest.schema.json`
+
 ## 2026-08-29 — Installed the agent kit and shipped Halite 0.1.0
 
 I installed agent-kit into a new Halite repository. Halite is a free
