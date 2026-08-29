@@ -1,6 +1,8 @@
 # CI.md — source blocks for .github/
 
-Instantiated into `.github/`. Verify step matches local `pnpm verify`.
+Copy `agent-kit/workflows/*.yml` into `.github/workflows/` when the pusher
+has the GitHub `workflow` scope. Until then, the runnable templates live
+under `agent-kit/workflows/`. Verify step matches local `pnpm verify`.
 
 ## `.github/workflows/ci.yml`
 
