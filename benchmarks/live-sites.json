@@ -103,6 +103,86 @@
       "probe": false,
       "minTools": 1,
       "expectNameContains": ["login", "user", "password", "submit", "set"]
+    },
+    {
+      "id": "google",
+      "url": "https://www.google.com/",
+      "tier": "soft",
+      "kind": "spa-controls",
+      "why": "Mainstream search homepage; expect search field / submit-like controls.",
+      "probe": false,
+      "minTools": 0,
+      "timeoutMs": 90000
+    },
+    {
+      "id": "cursor",
+      "url": "https://cursor.com/",
+      "tier": "soft",
+      "kind": "spa-controls",
+      "why": "Product marketing site with CTAs and possible signup/download controls.",
+      "probe": false,
+      "minTools": 0,
+      "timeoutMs": 90000
+    },
+    {
+      "id": "vercel",
+      "url": "https://vercel.com/",
+      "tier": "soft",
+      "kind": "spa-controls",
+      "why": "Mainstream SaaS homepage; nav CTAs and possibly search/signup.",
+      "probe": false,
+      "minTools": 0,
+      "timeoutMs": 90000
+    },
+    {
+      "id": "github",
+      "url": "https://github.com/",
+      "tier": "soft",
+      "kind": "spa-controls",
+      "why": "Mainstream developer homepage with signup and search.",
+      "probe": false,
+      "minTools": 0,
+      "timeoutMs": 90000
+    },
+    {
+      "id": "wikipedia",
+      "url": "https://www.wikipedia.org/",
+      "tier": "soft",
+      "kind": "html-form",
+      "why": "Public search form across languages; stable markup.",
+      "probe": false,
+      "minTools": 1,
+      "expectNameContains": ["search", "set", "submit"]
+    },
+    {
+      "id": "stripe",
+      "url": "https://stripe.com/",
+      "tier": "soft",
+      "kind": "spa-controls",
+      "why": "Mainstream fintech marketing site with CTAs.",
+      "probe": false,
+      "minTools": 0,
+      "timeoutMs": 90000
+    },
+    {
+      "id": "openai",
+      "url": "https://openai.com/",
+      "tier": "soft",
+      "kind": "spa-controls",
+      "why": "Mainstream AI product homepage with CTAs.",
+      "probe": false,
+      "minTools": 0,
+      "timeoutMs": 90000
+    },
+    {
+      "id": "npmjs",
+      "url": "https://www.npmjs.com/",
+      "tier": "soft",
+      "kind": "html-form",
+      "why": "Package registry homepage; soft because bot walls / sparse SSR are common.",
+      "probe": false,
+      "minTools": 0,
+      "timeoutMs": 90000
     }
   ]
 }

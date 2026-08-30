@@ -232,11 +232,12 @@ export async function analyzeUrl(
 
   try {
     const page = await browser.newPage();
+    // Modern marketing sites rarely go network-idle (analytics/websockets).
     await page.goto(options.url, {
-      waitUntil: "networkidle",
+      waitUntil: "domcontentloaded",
       timeout: options.timeoutMs ?? 60000,
     });
-    await page.waitForTimeout(800);
+    await page.waitForTimeout(3000);
 
     if (options.probe !== false) {
       const files = page.locator('input[type="file"]');
