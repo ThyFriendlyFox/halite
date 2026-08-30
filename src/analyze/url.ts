@@ -15,9 +15,11 @@ export type AnalyzeUrlOptions = {
 
 type PlaywrightModule = {
   chromium: {
+    executablePath?: () => string;
     launch: (opts: {
       headless?: boolean;
       executablePath?: string;
+      channel?: string;
       args?: string[];
     }) => Promise<{
       newPage: () => Promise<PageLike>;
@@ -58,7 +60,22 @@ function resolveChrome(explicit?: string): string | undefined {
     "/usr/bin/chromium-browser",
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   ].filter(Boolean) as string[];
-  return candidates.find((p) => existsSync(p));
+  return candidates.find((p) => p && existsSync(p));
+}
+
+function resolveBrowserPath(
+  pw: PlaywrightModule,
+  explicit?: string,
+): string | undefined {
+  const system = resolveChrome(explicit);
+  if (system) return system;
+  try {
+    const fromPw = pw.chromium.executablePath?.();
+    if (fromPw && existsSync(fromPw)) return fromPw;
+  } catch {
+    /* not installed */
+  }
+  return undefined;
 }
 
 function tinyPngPath(): string {
@@ -206,7 +223,7 @@ export async function analyzeUrl(
   options: AnalyzeUrlOptions,
 ): Promise<{ tools: HaliteTool[]; inventory: DomInventory }> {
   const pw = await loadPlaywright();
-  const executablePath = resolveChrome(options.executablePath);
+  const executablePath = resolveBrowserPath(pw, options.executablePath);
   const browser = await pw.chromium.launch({
     headless: true,
     executablePath,

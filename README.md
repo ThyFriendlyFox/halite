@@ -6,7 +6,9 @@ Halite is an open alternative to paid products such as [Sodium](https://sodium.r
 
 ## Why
 
-[WebMCP](https://webmachinelearning.github.io/webmcp/) lets a page register structured tools for AI agents in the browser. Halite finds candidate tools in your existing HTML, forms, buttons, and API routes, then publishes an approved manifest the runtime registers with `document.modelContext` / `navigator.modelContext`.
+[WebMCP](https://webmachinelearning.github.io/webmcp/) lets a page register structured tools for AI agents in the browser. Halite finds candidate tools in HTML forms, SPA controls (buttons, selects,
+file inputs, radios), and API routes, then publishes an approved manifest
+the runtime registers with `document.modelContext` / `navigator.modelContext`.
 
 ## Install
 
@@ -76,6 +78,7 @@ await registerManifest(manifest, { approvedOnly: true });
 | Command | Task |
 |---|---|
 | `halite analyze [root]` | Static scan → draft manifest |
+| `halite analyze --url <https>` | Render a live page → draft manifest |
 | `halite annotate <file>` | Add declarative tool attrs to HTML forms |
 | `halite schema` | Print manifest JSON Schema |
 | `halite approve [names…]` | Mark tools approved (`--all`) |

@@ -62,3 +62,4 @@ publish one script tag, version and roll back without a SaaS bill.
 - 2026-08-29 — shipped annotate + schema; refilled queue with next/init and beacon.
 - 2026-08-30 — promoted live URL + SPA DOM to #1 after nano-banner.com returned 0 tools; merged former crawl-adapter item into this promise.
 - 2026-08-30 — shipped SPA DOM + live URL as v0.3.0; nano-banner.com produced 7 tools.
+- 2026-08-30 — added live-site catalog + live-bench workflow design (separate from verify).

@@ -1,9 +1,1 @@
-node_modules/
-dist/
-halite-publish/
-halite.tools.json
-*.log
-.DS_Store
-.env
-.turbo/
-coverage/
+benchmarks/out/

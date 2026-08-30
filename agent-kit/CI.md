@@ -4,6 +4,14 @@ Copy `agent-kit/workflows/*.yml` into `.github/workflows/` when the pusher
 has the GitHub `workflow` scope. Until then, the runnable templates live
 under `agent-kit/workflows/`. Verify step matches local `pnpm verify`.
 
+Workflows:
+
+| File | Role |
+|---|---|
+| `ci.yml` | PR/push: `pnpm verify` only (no network to third-party sites) |
+| `live-bench.yml` | Nightly / manual / label `live-bench`: public URL bench |
+| `release.yml` | Tag release artifacts |
+
 ## `.github/workflows/ci.yml`
 
 ```yaml

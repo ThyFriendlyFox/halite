@@ -1,0 +1,114 @@
+# Live-site bench — design notes
+#
+# Split from `pnpm verify` on purpose:
+# - verify = deterministic (fixtures, no network)
+# - live-bench = third-party pages (can drift, rate-limit, or go down)
+#
+# Tiers:
+# - core  → failure fails the GitHub Actions job
+# - soft  → reported + uploaded as artifacts; never fails the job alone
+#
+# Triggers:
+# - schedule (nightly)
+# - workflow_dispatch (manual)
+# - optional: pull_request labeled `live-bench`
+#
+# Chrome:
+# - playwright-core + `npx playwright install --with-deps chromium`
+#   OR system google-chrome already on the runner image
+#
+# Copy this file to `.github/workflows/live-bench.yml` when the pusher
+# has the GitHub `workflow` scope.
+
+name: Live bench
+on:
+  schedule:
+    - cron: "27 7 * * *"
+  workflow_dispatch:
+    inputs:
+      tier:
+        description: "Which tier to run (core|soft|all)"
+        required: false
+        default: "all"
+      only:
+        description: "Comma-separated site ids (optional)"
+        required: false
+        default: ""
+  pull_request:
+    types: [labeled]
+
+concurrency:
+  group: live-bench-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    if: >
+      github.event_name != 'pull_request' ||
+      contains(github.event.pull_request.labels.*.name, 'live-bench')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Install Chromium for Playwright
+        run: pnpm exec playwright-core install --with-deps chromium
+
+      - name: Run live bench
+        env:
+          HALITE_LIVE_TIER: ${{ github.event_name == 'workflow_dispatch' && inputs.tier != 'all' && inputs.tier || '' }}
+          HALITE_LIVE_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.only || '' }}
+          # Prefer Playwright-managed Chromium when CHROME_PATH is unset.
+          HALITE_CHROME: ""
+        run: pnpm live-bench
+
+      - name: Upload manifests
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-bench-${{ github.run_id }}
+          path: |
+            benchmarks/out/*.json
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Job summary
+        if: always()
+        run: |
+          if [ -f benchmarks/out/summary.json ]; then
+            node -e '
+              const s = require("./benchmarks/out/summary.json");
+              const lines = [
+                "### Halite live bench",
+                "",
+                `| core_failed | soft_failed | ran |`,
+                `|---|---|---|`,
+                `| ${s.coreFailed} | ${s.softFailed} | ${s.results.length} |`,
+                "",
+                "| id | tier | ok | tools | ms |",
+                "|---|---|---|---|---|",
+                ...s.results.map(r => `| ${r.id} | ${r.tier} | ${r.ok} | ${r.toolCount??0} | ${r.ms??0} |`),
+              ];
+              require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join("\n")+"\n");
+            '
+          else
+            echo "No summary.json" >> "$GITHUB_STEP_SUMMARY"
+          fi

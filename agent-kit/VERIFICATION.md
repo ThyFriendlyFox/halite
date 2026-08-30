@@ -7,6 +7,10 @@
 3. Tests — `pnpm test`
 4. Smoke — `halite analyze` on `tests/fixtures/html-site` must emit ≥1 tool
 
+Live third-party pages are **not** part of verify. Run them with
+`pnpm live-bench` (see `benchmarks/README.md` and
+`agent-kit/workflows/live-bench.yml`).
+
 ## Rules
 
 - CI runs **the same command** as local. No CI-only logic.

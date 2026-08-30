@@ -1,0 +1,108 @@
+{
+  "$schema": "./live-sites.schema.json",
+  "version": 1,
+  "description": "Public pages Halite should invent useful WebMCP tools for. Soft sites never fail CI; core sites fail the live-bench job if they regress.",
+  "defaults": {
+    "probe": true,
+    "timeoutMs": 60000,
+    "minTools": 1
+  },
+  "sites": [
+    {
+      "id": "nano-banner",
+      "url": "https://www.nano-banner.com/",
+      "tier": "core",
+      "kind": "spa-controls",
+      "why": "Formless SPA with file upload + selects + radios + action buttons (Sodium-class target).",
+      "probe": true,
+      "minTools": 5,
+      "expectNameContains": ["upload", "platform", "usecase", "method", "download"]
+    },
+    {
+      "id": "httpbin-forms-post",
+      "url": "https://httpbin.org/forms/post",
+      "tier": "core",
+      "kind": "html-form",
+      "why": "Classic multi-field HTML form; baseline for form extraction.",
+      "probe": false,
+      "minTools": 1,
+      "expectNameContains": ["submit", "custname", "custemail"]
+    },
+    {
+      "id": "the-internet-login",
+      "url": "https://the-internet.herokuapp.com/login",
+      "tier": "core",
+      "kind": "html-form",
+      "why": "Simple login form with username/password + submit.",
+      "probe": false,
+      "minTools": 1,
+      "expectNameContains": ["login", "username", "password"]
+    },
+    {
+      "id": "playwright-todomvc",
+      "url": "https://demo.playwright.dev/todomvc/",
+      "tier": "soft",
+      "kind": "spa-controls",
+      "why": "TodoMVC SPA; soft because empty-state markup often lacks named controls.",
+      "probe": false,
+      "minTools": 0
+    },
+    {
+      "id": "w3-forms-demo",
+      "url": "https://www.w3.org/WAI/tutorials/forms/",
+      "tier": "soft",
+      "kind": "docs",
+      "why": "Docs page with example forms; soft because markup can change.",
+      "probe": false,
+      "minTools": 0
+    },
+    {
+      "id": "example-com",
+      "url": "https://example.com/",
+      "tier": "soft",
+      "kind": "negative",
+      "why": "Negative control: almost no interactive controls; expect 0–1 tools.",
+      "probe": false,
+      "minTools": 0,
+      "maxTools": 2
+    },
+    {
+      "id": "mdn-form-basics",
+      "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Your_first_form",
+      "tier": "soft",
+      "kind": "docs",
+      "why": "Teaching page with a sample contact form in the article.",
+      "probe": false,
+      "minTools": 0
+    },
+    {
+      "id": "webmcp-zaMaker",
+      "url": "https://chrome.dev/webmcp-demos/zaMaker/",
+      "tier": "soft",
+      "kind": "webmcp-demo",
+      "why": "Official-ish WebMCP imperative demo; may already expose tools.",
+      "probe": false,
+      "minTools": 0
+    },
+    {
+      "id": "practicesoftwaretesting",
+      "url": "https://practicesoftwaretesting.com/",
+      "tier": "soft",
+      "kind": "ecommerce",
+      "why": "Public test ecommerce storefront with search/filters.",
+      "probe": false,
+      "minTools": 1,
+      "expectNameContains": ["search", "submit", "set", "click"]
+    },
+    {
+      "id": "sauce-demo",
+      "url": "https://www.saucedemo.com/",
+      "tier": "soft",
+      "kind": "html-form",
+      "why": "Login wall with named fields; common automation target.",
+      "probe": false,
+      "minTools": 1,
+      "expectNameContains": ["login", "user", "password", "submit", "set"]
+    }
+  ]
+}

@@ -31,6 +31,7 @@
     "test": "node --import tsx --test tests/**/*.test.ts",
     "lint": "tsc --noEmit && node scripts/lint-style.mjs",
     "verify": "bash verify/verify.sh",
+    "live-bench": "node scripts/live-bench.mjs",
     "halite": "node dist/cli.js",
     "prepublishOnly": "pnpm verify"
   },
