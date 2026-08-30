@@ -24,6 +24,10 @@ Node 20+.
 # 1. Scan your repo (never runs your app code)
 halite analyze . -o halite.tools.json
 
+# Or scan a live public page (needs Chrome):
+# tip: probes file inputs so SPA UIs like nano-banner.com reveal their controls
+halite analyze --url https://www.nano-banner.com/ -o halite.tools.json
+
 # 2. Approve what agents may call
 halite approve --all
 
