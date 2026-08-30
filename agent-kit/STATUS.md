@@ -7,10 +7,10 @@ behavior change. The weekly cycle (WEEKLY.md step 5) refreshes it.
 | Area | State | Evidence |
 |---|---|---|
 | Core CLI (analyze/approve/emit/publish/rollback) | ✅ | `pnpm verify` |
+| Live URL analyze (`--url`) | ✅ | nano-banner.com → 7 tools |
+| SPA control scanner | ✅ | `tests/spa-controls.test.ts` |
 | `halite annotate` / `halite schema` | ✅ | `tests/schema-annotate.test.ts` |
-| Browser runtime (IIFE + registerManifest) | ✅ | build emits `dist/halite.runtime.global.js` |
-| Static analyzer adapter | ✅ | fixture tests in `tests/analyze.test.ts` |
-| Live crawl adapter | ❌ | queued |
+| Browser runtime (set/upload/click/form) | ✅ | build + prior browser E2E |
 | Hosted SaaS / billing | 🧊 | explicitly not doing |
 | npm publish under `halite` | 🚧 | package ready; registry publish needs maintainer token |
 
@@ -18,6 +18,6 @@ States: ✅ done (gated) · 🚧 in progress · ❌ not started · 🧊 frozen/w
 
 ## Current week
 
-- **Shipping:** between cycles (v0.2.0 annotate + schema)
-- **Last release:** v0.2.0 — 2026-08-29
+- **Shipping:** between cycles (v0.3.0 live URL + SPA DOM)
+- **Last release:** v0.3.0 — 2026-08-30
 - **Known red:** none

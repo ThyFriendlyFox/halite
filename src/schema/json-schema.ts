@@ -48,7 +48,7 @@ export const MANIFEST_JSON_SCHEMA = {
           type: "object",
           properties: {
             kind: {
-              enum: ["form", "button", "route", "api", "manual", "html"],
+              enum: ["form", "button", "route", "api", "manual", "html", "dom"],
             },
             path: { type: "string" },
             selector: { type: "string" },
@@ -60,7 +60,10 @@ export const MANIFEST_JSON_SCHEMA = {
         binding: {
           type: "object",
           properties: {
-            type: { enum: ["form", "click", "navigate", "custom"] },
+            type: { enum: ["form", "click", "navigate", "custom", "set", "upload"] },
+            valueKey: { type: "string" },
+            name: { type: "string" },
+            accept: { type: "string" },
             selector: { type: "string" },
             href: { type: "string" },
             method: { enum: ["GET", "POST", "PUT", "PATCH", "DELETE"] },

@@ -39,6 +39,16 @@ Evidence: <commit / tag / gate run / screenshot>
 
 ---
 
+## 2026-08-30 — Live URL analyze works on nano-banner.com
+
+nano-banner.com returned 0 tools under the form-only scanner. I added a
+SPA control scanner and `halite analyze --url`, which renders the page in
+Chrome, probes the file input, and invents tools. A live run produced 7
+drafts: upload, platform, usecase, method, reset, download, share.
+`pnpm verify` stays green.
+
+Evidence: `/tmp/nano-banner-analyze.log`; `tests/spa-controls.test.ts`; v0.3.0
+
 ## 2026-08-29 — Shipped annotate and schema as v0.2.0
 
 I added `halite annotate` for plain HTML forms and `halite schema` for

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SPA controls fixture</title>
+  </head>
+  <body>
+    <label class="upload"
+      >Choose image
+      <input type="file" accept="image/*" class="sr-only" />
+    </label>
+
+    <label for="platform">PLATFORM</label>
+    <select id="platform">
+      <option value="twitter">Twitter / X</option>
+      <option value="instagram">Instagram</option>
+      <option value="linkedin">LinkedIn</option>
+    </select>
+
+    <label for="usecase">USECASE / SIZE</label>
+    <select id="usecase">
+      <option value="twitter_banner">X Header / Banner</option>
+      <option value="twitter_avatar">X Profile Photo</option>
+    </select>
+
+    <fieldset>
+      <legend>ADJUSTMENT METHOD</legend>
+      <label><input type="radio" name="method" value="fit" checked /> Fit</label>
+      <label><input type="radio" name="method" value="fill" /> Fill</label>
+      <label><input type="radio" name="method" value="refocus" /> Refocus</label>
+      <label><input type="radio" name="method" value="crop" /> Crop</label>
+    </fieldset>
+
+    <button type="button">Reset</button>
+    <button type="button">Download</button>
+    <button type="button">Share</button>
+  </body>
+</html>

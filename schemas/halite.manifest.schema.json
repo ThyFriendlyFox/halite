@@ -101,7 +101,8 @@
                 "route",
                 "api",
                 "manual",
-                "html"
+                "html",
+                "dom"
               ]
             },
             "path": {
@@ -128,8 +129,19 @@
                 "form",
                 "click",
                 "navigate",
-                "custom"
+                "custom",
+                "set",
+                "upload"
               ]
+            },
+            "valueKey": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "accept": {
+              "type": "string"
             },
             "selector": {
               "type": "string"

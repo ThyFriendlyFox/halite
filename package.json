@@ -1,6 +1,6 @@
 {
   "name": "halite",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Free open-source WebMCP tooling: analyze a site or repo, approve tools, ship one script tag.",
   "license": "MIT",
   "type": "module",
@@ -58,6 +58,7 @@
   "dependencies": {
     "commander": "^13.1.0",
     "fast-glob": "^3.3.3",
+    "playwright-core": "1.62.1",
     "zod": "^3.24.2"
   },
   "pnpm": {

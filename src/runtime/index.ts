@@ -124,6 +124,77 @@ async function executeBinding(
     return { ok: res.ok, status: res.status, data };
   }
 
+  if (binding.type === "set") {
+    if (!binding.selector) {
+      return { ok: false, error: "Set binding missing selector" };
+    }
+    const key = binding.valueKey ?? "value";
+    const value = args[key];
+    if (binding.name) {
+      const radio = document.querySelector(
+        `input[type="radio"][name="${CSS.escape(binding.name)}"][value="${String(value).replace(/"/g, '\\"')}"]`,
+      );
+      if (!(radio instanceof HTMLInputElement)) {
+        return {
+          ok: false,
+          error: `Radio ${binding.name}=${String(value)} not found`,
+        };
+      }
+      radio.click();
+      radio.dispatchEvent(new Event("input", { bubbles: true }));
+      radio.dispatchEvent(new Event("change", { bubbles: true }));
+      return { ok: true, action: "set_radio", name: binding.name, value };
+    }
+    const el = document.querySelector(binding.selector);
+    if (!(el instanceof HTMLElement)) {
+      return { ok: false, error: `Element not found: ${binding.selector}` };
+    }
+    if (el instanceof HTMLSelectElement || el instanceof HTMLTextAreaElement) {
+      el.value = String(value ?? "");
+    } else if (el instanceof HTMLInputElement) {
+      if (el.type === "checkbox") {
+        el.checked = Boolean(value);
+      } else {
+        el.value = String(value ?? "");
+      }
+    } else {
+      return { ok: false, error: "Element cannot accept a value" };
+    }
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+    return { ok: true, action: "set", selector: binding.selector, value };
+  }
+
+  if (binding.type === "upload") {
+    if (!binding.selector) {
+      return { ok: false, error: "Upload binding missing selector" };
+    }
+    const fileUrl = String(args.fileUrl ?? "");
+    if (!fileUrl) {
+      return { ok: false, error: "fileUrl is required" };
+    }
+    const el = document.querySelector(binding.selector);
+    if (!(el instanceof HTMLInputElement) || el.type !== "file") {
+      return { ok: false, error: `File input not found: ${binding.selector}` };
+    }
+    const res = await fetch(fileUrl);
+    if (!res.ok) {
+      return { ok: false, error: `Failed to fetch fileUrl: ${res.status}` };
+    }
+    const blob = await res.blob();
+    const name =
+      fileUrl.split("/").filter(Boolean).at(-1)?.split("?")[0] || "upload.bin";
+    const file = new File([blob], name, {
+      type: blob.type || "application/octet-stream",
+    });
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    el.files = dt.files;
+    el.dispatchEvent(new Event("input", { bubbles: true }));
+    el.dispatchEvent(new Event("change", { bubbles: true }));
+    return { ok: true, action: "upload", selector: binding.selector, name };
+  }
+
   return {
     ok: false,
     error: "Custom binding requires a page-provided execute handler",

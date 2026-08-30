@@ -15,6 +15,8 @@ fails parse with a Zod error; the CLI exits non-zero and does not overwrite.
 
 | Field | Type | Default | Use |
 |---|---|---|---|
+| `analyze --url` | url | unset | Render a public page and invent tools from the live DOM |
+| `analyze --no-probe` | bool | false | Skip tiny file-input probe during `--url` |
 | `analyze --out` | path | `halite.tools.json` | Manifest write path |
 | `analyze --name` | string | directory name | Manifest `name` |
 | `approve --manifest` | path | `halite.tools.json` | Manifest to update |

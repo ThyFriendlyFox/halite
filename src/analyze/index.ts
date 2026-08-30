@@ -1,13 +1,19 @@
 import { readFileSync, existsSync } from "node:fs";
-import { join, relative, resolve } from "node:path";
+import { relative, resolve } from "node:path";
 import fg from "fast-glob";
 import type { HaliteTool } from "../schema/manifest.js";
+import { inventoryFromHtml } from "./html-controls.js";
+import { toolsFromInventory } from "./dom-tools.js";
 
 export type AnalyzeOptions = {
   root: string;
   include?: string[];
   exclude?: string[];
 };
+
+export { inventoryFromHtml } from "./html-controls.js";
+export { toolsFromInventory } from "./dom-tools.js";
+export { analyzeUrl } from "./url.js";
 
 const DEFAULT_INCLUDE = [
   "**/*.html",
@@ -385,6 +391,8 @@ export function analyzeRepository(options: AnalyzeOptions): HaliteTool[] {
     }
     if (/\.html?$/i.test(file)) {
       tools.push(...analyzeHtml(content, rel, used));
+      // SPA / formless controls (buttons, selects, file, radios)
+      tools.push(...toolsFromInventory(inventoryFromHtml(content, rel), used));
     } else if (/\.(jsx|tsx|vue|svelte|astro)$/i.test(file)) {
       tools.push(...analyzeJsx(content, rel, used));
     }

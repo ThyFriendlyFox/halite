@@ -1,7 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
-import { Command } from "commander";
-import { analyzeRepository } from "./analyze/index.js";
+import { analyzeRepository, analyzeUrl } from "./analyze/index.js";
 import { annotateFile, annotateHtml } from "./analyze/annotate.js";
 import {
   emptyManifest,
@@ -12,6 +9,9 @@ import {
 import { manifestJsonSchema } from "./schema/json-schema.js";
 import { emitScriptTag } from "./runtime/index.js";
 import { createRequire } from "node:module";
+import { mkdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
+import { Command } from "commander";
 
 const require = createRequire(import.meta.url);
 const pkg = require("../package.json") as { version: string };
@@ -107,44 +107,84 @@ program
 
 program
   .command("analyze")
-  .description("Scan a local repository and write a draft Halite manifest")
+  .description(
+    "Scan a local repository or a live URL and write a draft Halite manifest",
+  )
   .argument("[root]", "repository or site root", ".")
   .option("-o, --out <file>", "manifest output path", "halite.tools.json")
   .option("-n, --name <name>", "manifest name")
+  .option("--url <url>", "render a public URL with Chrome and invent tools from the live DOM")
+  .option("--no-probe", "do not upload a tiny image into file inputs during --url")
   .option("--json", "print tools as JSON to stdout", false)
-  .action((root: string, opts: { out: string; name?: string; json?: boolean }) => {
-    const abs = resolve(root);
-    const tools = analyzeRepository({ root: abs });
-    const out = resolve(opts.out);
-    const name = opts.name ?? abs.split(/[/\\]/).filter(Boolean).at(-1) ?? "site";
-    const prev = loadOrCreate(out, name);
-    const merged = mergeTools(prev.tools, tools);
-    const next: HaliteManifest = {
-      ...prev,
-      name,
-      version: prev.tools.length ? bumpPatch(prev.version) : prev.version,
-      createdAt: new Date().toISOString(),
-      tools: merged,
-    };
-    writeJson(out, next);
-    if (opts.json) {
-      process.stdout.write(`${JSON.stringify(next, null, 2)}\n`);
-    } else {
-      const draft = merged.filter((t) => t.status === "draft").length;
-      const approved = merged.filter((t) => t.status === "approved").length;
-      console.log(`Wrote ${out}`);
-      console.log(
-        `Found ${merged.length} tool(s): ${approved} approved, ${draft} draft`,
-      );
-      for (const t of merged) {
-        const mark =
-          t.status === "approved" ? "✔" : t.status === "rejected" ? "✖" : "·";
-        console.log(
-          `  ${mark} ${t.name.padEnd(28)} ${t.safety.padEnd(6)} ${t.description}`,
-        );
+  .action(
+    async (
+      root: string,
+      opts: {
+        out: string;
+        name?: string;
+        json?: boolean;
+        url?: string;
+        probe?: boolean;
+      },
+    ) => {
+      const out = resolve(opts.out);
+      let tools: HaliteTool[];
+      let name = opts.name;
+      let siteOrigin: string | undefined;
+
+      if (opts.url) {
+        const { tools: found } = await analyzeUrl({
+          url: opts.url,
+          probe: opts.probe,
+        });
+        tools = found;
+        name =
+          name ??
+          (() => {
+            try {
+              return new URL(opts.url!).hostname.replace(/\./g, "_");
+            } catch {
+              return "site";
+            }
+          })();
+        siteOrigin = opts.url;
+      } else {
+        const abs = resolve(root);
+        tools = analyzeRepository({ root: abs });
+        name =
+          name ?? abs.split(/[/\\]/).filter(Boolean).at(-1) ?? "site";
       }
-    }
-  });
+
+      const prev = loadOrCreate(out, name!);
+      const merged = mergeTools(prev.tools, tools);
+      const next: HaliteManifest = {
+        ...prev,
+        name: name!,
+        version: prev.tools.length ? bumpPatch(prev.version) : prev.version,
+        createdAt: new Date().toISOString(),
+        siteOrigin: siteOrigin ?? prev.siteOrigin,
+        tools: merged,
+      };
+      writeJson(out, next);
+      if (opts.json) {
+        process.stdout.write(`${JSON.stringify(next, null, 2)}\n`);
+      } else {
+        const draft = merged.filter((t) => t.status === "draft").length;
+        const approved = merged.filter((t) => t.status === "approved").length;
+        console.log(`Wrote ${out}`);
+        console.log(
+          `Found ${merged.length} tool(s): ${approved} approved, ${draft} draft`,
+        );
+        for (const t of merged) {
+          const mark =
+            t.status === "approved" ? "✔" : t.status === "rejected" ? "✖" : "·";
+          console.log(
+            `  ${mark} ${t.name.padEnd(28)} ${t.safety.padEnd(6)} ${t.description}`,
+          );
+        }
+      }
+    },
+  );
 
 program
   .command("approve")

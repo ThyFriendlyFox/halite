@@ -1,16 +1,27 @@
 # Adapters
 
 An analyzer adapter turns a site or repository into draft `HaliteTool`s.
-Halite ships 1 adapter. Select one with the analyzer id (CLI will grow
-`--adapter <id>`; library callers use `getAnalyzer(id)`).
+Halite ships 2 analyzers. The CLI picks one with `--url` (live) or a local
+path (static).
 
 ## static
 
-Default. Walks local files with heuristics. Does not run project code.
-Use this for Sodium-like "connect a repository" flows on your laptop or CI.
+Default for local paths. Walks files with heuristics. Does not run project
+code. Also invents SPA controls from buttons, selects, file inputs, and
+radio groups in HTML.
 
 ```json
 { "analyzer": { "id": "static" } }
+```
+
+## crawl (live URL)
+
+Used by `halite analyze --url <https>`. Renders the page in Chrome via
+`playwright-core`, optionally probes the first file input with a tiny PNG
+(`--no-probe` to disable), then invents tools from the live DOM.
+
+```bash
+halite analyze --url https://www.nano-banner.com/ -o halite.tools.json
 ```
 
 ## Writing a new adapter

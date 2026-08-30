@@ -13,7 +13,7 @@ export const JsonSchemaObject = z
 export const ToolSafety = z.enum(["read", "write", "danger"]);
 
 export const ToolSource = z.object({
-  kind: z.enum(["form", "button", "route", "api", "manual", "html"]),
+  kind: z.enum(["form", "button", "route", "api", "manual", "html", "dom"]),
   path: z.string().optional(),
   selector: z.string().optional(),
   line: z.number().int().positive().optional(),
@@ -31,14 +31,20 @@ export const HaliteTool = z.object({
   requireConfirmation: z.boolean().default(false),
   /** How the analyzer found this tool. */
   source: ToolSource.optional(),
-  /** DOM binding for form/button tools. */
+  /** DOM binding for form/button/control tools. */
   binding: z
     .object({
-      type: z.enum(["form", "click", "navigate", "custom"]),
+      type: z.enum(["form", "click", "navigate", "custom", "set", "upload"]),
       selector: z.string().optional(),
       href: z.string().optional(),
       method: z.enum(["GET", "POST", "PUT", "PATCH", "DELETE"]).optional(),
       action: z.string().optional(),
+      /** For set tools: which arg holds the value (default value). */
+      valueKey: z.string().optional(),
+      /** For radio groups: the shared name attribute. */
+      name: z.string().optional(),
+      /** For upload tools: accept attribute hint. */
+      accept: z.string().optional(),
     })
     .optional(),
   /** Approval state in the local publish workflow. */
