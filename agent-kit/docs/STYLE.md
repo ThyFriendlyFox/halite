@@ -35,4 +35,4 @@ Do not add a tooltip, a hint or a help line unless a human asks for one.
 | runtime | loader, snippet agent |
 | WebMCP | browser MCP, in-page MCP |
 | analyze | scrape (for local static scan) |
-| Halite | Sodium (except comparisons) |
+| Halite | — |

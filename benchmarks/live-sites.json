@@ -13,7 +13,7 @@
       "url": "https://www.nano-banner.com/",
       "tier": "core",
       "kind": "spa-controls",
-      "why": "Formless SPA with file upload + selects + radios + action buttons (Sodium-class target).",
+      "why": "Formless SPA with file upload + selects + radios + action buttons.",
       "probe": true,
       "minTools": 5,
       "expectNameContains": ["upload", "platform", "usecase", "method", "download"]

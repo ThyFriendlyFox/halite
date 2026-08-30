@@ -67,7 +67,7 @@ const program = new Command();
 program
   .name("halite")
   .description(
-    "Free open-source Sodium alternative: turn site features into WebMCP tools",
+    "Free open-source WebMCP tooling: turn site features into tools agents can call",
   )
   .version(pkg.version);
 

@@ -2,7 +2,7 @@
 
 Free, open-source WebMCP tooling. Analyze a local site or repository, approve the tools you want agents to call, and ship **one script tag**.
 
-Halite is an open alternative to paid products such as [Sodium](https://sodium.result.dev): same job (site features → WebMCP tools), no subscription.
+Halite turns website features into WebMCP tools AI agents can use: analyze a site or repo, approve tools, ship one script tag. Free and open source (MIT).
 
 ## Why
 

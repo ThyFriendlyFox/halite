@@ -59,8 +59,8 @@ Evidence: `tests/schema-annotate.test.ts`, `schemas/halite.manifest.schema.json`
 
 ## 2026-08-29 — Installed the agent kit and shipped Halite 0.1.0
 
-I installed agent-kit into a new Halite repository. Halite is a free
-open-source answer to Sodium: scan a repo, approve WebMCP tools, publish
+I installed agent-kit into a new Halite repository. Halite is free
+open-source WebMCP tooling: scan a repo, approve tools, publish
 one script tag. The static analyzer reads HTML and route files only; it
 does not run app code. The first queue holds annotate, crawl adapter,
 and schema export. `pnpm verify` is the health gate.
