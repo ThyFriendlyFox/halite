@@ -1,1 +1,10 @@
+node_modules/
+dist/
+halite-publish/
+halite.tools.json
 benchmarks/out/
+*.log
+.DS_Store
+.env
+.turbo/
+coverage/
